@@ -104,7 +104,9 @@ class Graph:
 
         out = tf.layers.dense(x, 50)
         logits = tf.layers.dense(out, 2)
-        self.prediction = tf.argmax(logits, axis=1)
+        # self.prediction = tf.argmax(logits, axis=1)
+        self.prediction_prob = tf.nn.softmax(logits, axis=1)
+        self.prediction = self.prediction_prob[:, 1]
 
         self.train(logits)
 
@@ -113,5 +115,6 @@ class Graph:
         loss = tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=logits)
         self.loss = tf.reduce_mean(loss)
         self.train_op = tf.train.AdamOptimizer(args.learning_rate).minimize(self.loss)
-        correct_prediction = tf.equal(tf.cast(self.prediction, tf.int32), self.y)
+        predict_label = tf.argmax(logits, axis=1)
+        correct_prediction = tf.equal(tf.cast(predict_label, tf.int32), self.y)
         self.acc = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))

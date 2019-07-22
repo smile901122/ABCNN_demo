@@ -23,5 +23,4 @@ with tf.Session()as sess:
                          feed_dict={model.p: p,
                                     model.h: h,
                                     model.keep_prob: 1})
-
     print(prediction)
