@@ -1,7 +1,6 @@
 import tensorflow as tf
 from abcnn import args
 
-
 class Graph:
 
     def __init__(self, abcnn1=False, abcnn2=False):
@@ -23,7 +22,7 @@ class Graph:
         self.forward()
 
     def dropout(self, x):
-        return tf.nn.dropout(x, keep_prob=self.keep_prob)
+        return tf.nn.dropout(x, rate=1-self.keep_prob)
 
     def cos_sim(self, v1, v2):
         norm1 = tf.sqrt(tf.reduce_sum(tf.square(v1), axis=1))
@@ -71,8 +70,8 @@ class Graph:
                               axis=1))
             attention_pool_matrix = 1 / (attention_pool_euclidean + 1)
 
-            p_sum = tf.reduce_sum(attention_pool_matrix, axis=2, keep_dims=True)
-            h_sum = tf.reduce_sum(attention_pool_matrix, axis=1, keep_dims=True)
+            p_sum = tf.reduce_sum(attention_pool_matrix, axis=2, keepdims=True)
+            h_sum = tf.reduce_sum(attention_pool_matrix, axis=1, keepdims=True)
 
             p = tf.reshape(p, shape=(-1, p.shape[1], p.shape[2] * p.shape[3]))
             h = tf.reshape(h, shape=(-1, h.shape[1], h.shape[2] * h.shape[3]))
