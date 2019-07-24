@@ -79,12 +79,12 @@ if __name__ == '__main__':
     abcnn = AbcnnModel()
 
     # predict
-    # p, h, y = load_char_data('input/test.csv', data_size=None)
-    # abcnn.load_model('../output/abcnn/abcnn.ckpt')
-    # prd = abcnn.predict(p, h)
-    # print(prd)
+    p, h, y = load_char_data('input/test.csv', data_size=None)
+    abcnn.load_model('../output/abcnn/abcnn.ckpt')
+    prd = abcnn.predict(p, h)
+    print(prd)
 
     # train
-    p, h, y = load_char_data('input/train.csv', data_size=None)
-    p_eval, h_eval, y_eval = load_char_data('input/dev.csv', data_size=1000)
-    abcnn.train(p, h, y, p_eval, h_eval, y_eval)
+    # p, h, y = load_char_data('input/train.csv', data_size=None)
+    # p_eval, h_eval, y_eval = load_char_data('input/dev.csv', data_size=1000)
+    # abcnn.train(p, h, y, p_eval, h_eval, y_eval)
