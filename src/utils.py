@@ -69,17 +69,6 @@ def pad_sequences(sequences, maxlen=None, dtype='int32', padding='post',
 
 
 def shuffle(*arrs):
-    ''' shuffle
-
-    Shuffle 数据
-
-    Arguments:
-        *arrs: 数组数据
-
-    Returns:
-        shuffle后的数据
-
-    '''
     arrs = list(arrs)
     for i, arr in enumerate(arrs):
         assert len(arrs[0]) == len(arrs[i])

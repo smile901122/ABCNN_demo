@@ -13,7 +13,8 @@ class AbcnnModel:
         self.saver.restore(self.sess, model_file)
         print('load SUCCESS !')
 
-    def train(self, p, h, y, p_eval, h_eval, y_eval, model_file='../model/abcnn.ckpt'):
+    def train(self, p, h, y, p_eval, h_eval, y_eval,
+              model_file='../model/abcnn.ckpt'):
         p_holder = tf.placeholder(
             dtype=tf.int32, shape=(
                 None, args.seq_length), name='p')
@@ -22,7 +23,8 @@ class AbcnnModel:
                 None, args.seq_length), name='h')
         y_holder = tf.placeholder(dtype=tf.int32, shape=None, name='y')
 
-        dataset = tf.data.Dataset.from_tensor_slices((p_holder, h_holder, y_holder))
+        dataset = tf.data.Dataset.from_tensor_slices(
+            (p_holder, h_holder, y_holder))
         dataset = dataset.batch(args.batch_size).repeat(args.epochs)
         iterator = dataset.make_initializable_iterator()
         next_element = iterator.get_next()
@@ -49,7 +51,15 @@ class AbcnnModel:
                                                        self.model.h: h_batch,
                                                        self.model.y: y_batch,
                                                        self.model.keep_prob: args.keep_prob})
-                    print('epoch:', epoch, ' step:', step, ' loss: ', loss, ' acc:', acc)
+                    print(
+                        'epoch:',
+                        epoch,
+                        ' step:',
+                        step,
+                        ' loss: ',
+                        loss,
+                        ' acc:',
+                        acc)
 
                 loss_eval, acc_eval = sess.run([self.model.loss, self.model.acc],
                                                feed_dict={self.model.p: p_eval,
@@ -66,19 +76,19 @@ class AbcnnModel:
     def predict(self, p, h):
         with self.sess:
             prediction = self.sess.run(self.model.prediction,
-                                  feed_dict={self.model.p: p,
-                                             self.model.h: h,
-                                             self.model.keep_prob: 1})
+                                       feed_dict={self.model.p: p,
+                                                  self.model.h: h,
+                                                  self.model.keep_prob: 1})
 
         return prediction
 
     def test(self, p, h, y):
         with self.sess:
             loss, acc = self.sess.run([self.model.loss, self.model.acc],
-                                 feed_dict={self.model.p: p,
-                                            self.model.h: h,
-                                            self.model.y: y,
-                                            self.model.keep_prob: 1})
+                                      feed_dict={self.model.p: p,
+                                                 self.model.h: h,
+                                                 self.model.y: y,
+                                                 self.model.keep_prob: 1})
 
         return loss, acc
 
@@ -89,9 +99,9 @@ if __name__ == '__main__':
     abcnn = AbcnnModel()
 
     # predict
-    p, h, y = load_char_data('input/test.csv', data_size=None)
+    p_test, h_test, y_test = load_char_data('input/test.csv', data_size=None)
     abcnn.load_model('../model/abcnn.ckpt')
-    prd = abcnn.predict(p, h)
+    prd = abcnn.predict(p_test, h_test)
     print(prd)
 
     # train
