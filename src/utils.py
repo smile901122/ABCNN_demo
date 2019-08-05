@@ -131,7 +131,7 @@ def load_char_data(file, data_size=None):
     h = df['sentence2'].values[0:data_size]
     label = df['label'].values[0:data_size]
 
-    p, h, label = shuffle(p, h, label)
+    # p, h, label = shuffle(p, h, label)
 
     p_c_index, h_c_index = char_index(p, h)
 

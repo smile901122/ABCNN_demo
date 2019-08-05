@@ -100,6 +100,7 @@ if __name__ == '__main__':
 
     # predict
     p_test, h_test, y_test = load_char_data('input/test.csv', data_size=None)
+    print(p_test[0], h_test[0])
     abcnn.load_model('../model/abcnn.ckpt')
     prd = abcnn.predict(p_test, h_test)
     print(prd)
